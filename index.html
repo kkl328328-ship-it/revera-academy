@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>전공탐색검사 (REVERA-고등용)</title>
+    <style>
+        :root { --navy: #1a2a44; --light-navy: #f0f3f7; --border: #d1d5db; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #f4f4f4; display: flex; flex-direction: column; align-items: center; padding: 20px; color: #333; margin: 0; }
+        .container { width: 100%; max-width: 950px; background: white; border: 2px solid var(--navy); border-radius: 12px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 100px; }
+        .header { background: var(--navy); color: white; padding: 20px; text-align: center; border-radius: 50px; margin-bottom: 25px; font-weight: bold; font-size: 1.4rem; }
+        .page { display: none; } .active { display: block; }
+        .info-box { background: var(--light-navy); border-left: 5px solid var(--navy); padding: 18px; margin-bottom: 25px; font-size: 0.95rem; line-height: 1.7; color: #1a2a44; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+        th { background: #eee; padding: 12px; border: 1px solid var(--border); font-size: 0.9rem; color: var(--navy); position: sticky; top: 0; z-index: 5; }
+        td { border: 1px solid var(--border); padding: 12px; text-align: center; font-size: 0.95rem; }
+        .job-desc-table td { text-align: left; padding: 8px 15px; border: 1px solid #eee; background: #fafafa; font-size: 0.85rem;}
+        .q-text { text-align: left; padding: 12px 20px; }
+        .active-row { background-color: #eef2ff; outline: 2px solid var(--navy); }
+        .btn-box { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        button { padding: 15px 45px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; background: var(--navy); font-size: 1rem; }
+        .progress-container { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 2px solid var(--navy); padding: 15px; text-align: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 100; }
+        .progress-bar-bg { width: 80%; max-width: 700px; height: 12px; background: #eee; border-radius: 10px; margin: 8px auto; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--navy); width: 0%; transition: width 0.3s ease; }
+        .help-text { font-size: 0.85rem; color: #d9534f; margin-top: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">📝 전공탐색검사 (REVERA-고등용)</div>
+
+    <div id="p0" class="page active">
+        <div class="info-box"><b>[수험자 정보]</b> 모든 정보를 정확히 입력해 주세요.</div>
+        <div class="input-group"><label>이름:</label><input type="text" id="name"></div>
+        <div class="input-group">
+            <label>성별:</label>
+            <select id="gender">
+                <option value="">선택하세요</option>
+                <option value="남">남성</option>
+                <option value="여">여성</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>관심 계열 (예: 인문, 사회, 공학, 자연, 예체능, 의약, 교육, 생활과학 등):</label>
+            <input type="text" id="interest" placeholder="관심 계열을 입력하세요">
+        </div>
+        <div class="input-group"><label>학교:</label><input type="text" id="school"></div>
+        <div class="input-group"><label>학년:</label><input type="number" id="grade"></div>
+        <div class="input-group"><label>이메일 주소:</label><input type="email" id="email"></div>
+        <div class="input-group">
+            <label>핸드폰 번호:</label>
+            <input type="tel" id="phone" placeholder="010-0000-0000">
+            <div class="help-text">※ 한국 핸드폰 번호가 없으면 다음으로 넘어가주세요.</div>
+        </div>
+        <div class="btn-box"><button onclick="checkP0()">다음 단계</button></div>
+    </div>
+
+    <div id="p1" class="page">
+        <div class="info-box">
+            <b>[희망직업]</b><br>
+            위에서 선정한 5개의 직업에 대해서 가장 희망하는 순위(1순위) 부터 가장 적게 희망하는 순위(5순위)까지 순위를 정해서 해당 직업의 번호에 체크해주세요.
+        </div>
+        <table class="job-desc-table">
+            <tr><td><b>(가)</b> 기계나 도구를 사용하는 직업</td><td><b>(나)</b> 신체적 기술이나 운동 능력을 활용하는 직업</td></tr>
+            <tr><td><b>(다)</b> 새로운 것을 알아내기 위하여 탐구하는 직업</td><td><b>(라)</b> 연구능력을 활용하는 직업</td></tr>
+            <tr><td><b>(마)</b> 창의적으로 무엇인가를 표현하는 직업</td><td><b>(바)</b> 예술적 재능을 활용하는 직업</td></tr>
+            <tr><td><b>(사)</b> 다른 사람을 도와주거나 가르치는 직업</td><td><b>(아)</b> 다른 사람을 돌보는 능력을 활용하는 직업</td></tr>
+            <tr><td><b>(자)</b> 사람들을 관리하거나 이끌어가는 직업</td><td><b>(차)</b> 일을 계획하고 추진하는 능력을 활용하는 직업</td></tr>
+            <tr><td><b>(카)</b> 정보나 데이터를 체계적으로 관리하는 직업</td><td><b>(타)</b> 규칙에 따라 일을 처리하는 능력을 활용하는 직업</td></tr>
+        </table>
+        <table id="rank-table"></table>
+        <div class="btn-box"><button style="background:#666" onclick="go(0)">이전</button><button onclick="checkP1()">설문 시작 (활동)</button></div>
+    </div>
+
+    <div id="survey-pages"></div>
+</div>
+
+<div class="progress-container" id="progress-container" style="display:none;">
+    <div class="progress-text">현재 진행도: <span id="percent">0</span>% (<span id="count">0</span>/264)</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar"></div></div>
+</div>
+
+<script>
+    const questionsText = [
+        "목공에 대한 수업을 듣는다.","정비사가 되기 위한 수업을 듣는다.","전자제품을 수리한다.","자동차를 수리한다.","기계를 설치하거나 수리한다.","중장비 기계나 장비를 운전한다.","기술 교육에 관한 수업을 듣는다.","훌륭한 정비사나 기술자와 일한다.","전기 장비를 설치한다.","식탁을 수리한다.","금속 가공이나 기계공구를 이용한다.","공구를 가지고 작업을 한다.","물건을 제작한다.","작은 도구나 연장을 가지고 작업을 한다.","과학 서적이나 잡지를 읽는다.","연구소나 실험실에서 일한다.","과학 이론을 공부한다.","물리학 수업을 듣는다.","문제를 해결하기 위해 수학을 적용한다.","과학 프로젝트에 참여한다.","화학 수업을 듣는다.","생물학 수업을 듣는다.","학문적 또는 기술적 문제를 연구한다.","과학 전시관을 방문한다.","복합한 문제에 대한 해결책을 찾는다.","연구설계를 한다.","실험을 한다.","문제의 원인을 조사한다.","소설이나 극본을 쓴다.","재능 있는 화가나 작가, 조각가와 일한다.","음악을 작곡하거나 편곡한다.","스케치를 하거나 그림을 그린다.","가구, 의상, 포스터 등을 디자인한다.","악기를 연주한다.","초상화를 그리거나 사진을 찍는다.","시를 읽거나 쓴다.","미술이나 디자인에 대한 수업을 듣는다.","잡지나 신문에 원고를 써서 보낸다.","잡지를 편집한다.","그래픽 작품을 만든다.","미술관을 방문한다.","코미디나 연극에 참여하며 연기한다.","다른 사람들에게 읽는 법을 가르쳐준다.","정신적으로 어려움을 겪는 사람들을 도와준다.","다른 사람들을 가르치는 일을 한다.","다른 사람들을 위해 봉사활동을 한다.","사람들의 고민을 들어주고 조언을 해준다.","새로운 사람들을 만나는 것을 즐긴다.","지역 사회 행사에 참여한다.","다른 사람들의 복지에 관심을 갖는다.","청소년 단체에서 활동한다.","사람들에게 친절하게 대하는 것을 좋아한다.","다른 사람의 감정을 잘 이해한다.","사람들을 돕는 전문적인 기술을 배운다.","병원이나 복지시설에서 자원봉사를 한다.","사람들과 대화하며 문제를 해결한다.","사람들에게 영향력을 행사한다.","자신의 사업을 운영해보고 싶다.","사람들을 이끌고 목표를 달성한다.","무엇인가를 판매하거나 홍보하는 일을 한다.","회의나 모임을 주도한다.","경제나 비즈니스에 관한 잡지를 읽는다.","경쟁적인 상황에서 일하는 것을 즐킨다.","중요한 결정을 내리는 위치에 있고 싶다.","성공한 기업가들을 만나는 것을 좋아한다.","사람들에게 동기를 부여하는 연설을 한다.","자신의 아이디어로 사람들을 설득한다.","정치나 경영 분야에 관심이 많다.","목표를 위해 다른 사람들과 협상한다.","단체의 리더가 되어 조직을 이끈다.","사무실에서 서류를 정리한다.","기록을 정확하고 세밀하게 유지한다.","컴퓨터를 사용하여 데이터를 처리한다.","규칙과 절차를 지키는 일을 선호한다.","계획표에 따라 체계적으로 일한다.","예산을 세우고 돈을 관리한다.","명확한 지침이 있는 일을 좋아한다.","숫자를 계산하거나 통계를 낸다.","정보를 분류하고 파일링한다.","정해진 시간 내에 과제를 완수한다.","세부적인 사항까지 꼼꼼하게 챙킨다.","정리정돈을 잘 하는 편이다.","표나 그래프를 그리는 일을 즐긴다.","사무 기기를 능숙하게 다룬다.",
+        "도구를 사용하여 간단한 수리를 할 수 있다.","기계의 작동 원리를 잘 이해한다.","가구 조립이나 목공 작업을 할 수 있다.","라디오나 전자기기 수리가 가능하다.","전기 배선이나 설비 작업을 이해한다.","도면을 보고 물건을 만든다.","정밀한 기계 조작을 할 수 있다.","수동 공구를 능숙하게 사용한다.","측량 기구나 장비를 다룰 수 있다.","기술적인 문제 해결 능력이 있다.","중장비나 차량의 기본 정비가 가능하다.","금속이나 재료 가공을 할 수 있다.","공구의 명칭과 용도를 정확히 안다.","손재주가 좋다는 평가를 받는다.","과학 실험을 설계하고 수행할 수 있다.","수학적 공식이나 통계를 잘 활용한다.","논리적으로 원인을 분석한다.","정밀 측정 장비를 잘 다룬다.","과학 이론을 빠르게 습득한다.","프로그래밍이나 알고리즘을 이해한다.","화학 기호나 생물 지식이 풍부하다.","가설을 세우고 검증하는 능력이 있다.","복잡한 데이터를 해석할 수 있다.","학술 자료를 읽고 요약한다.","실험실 장비를 안전하게 사용한다.","연구 보고서를 체계적으로 작성한다.","데이터의 수치 오류를 잘 찾아낸다.","지적 호기심이 강하고 탐구적이다.","악기를 연주하거나 노래를 잘한다.","독창적인 글이나 시를 쓸 수 있다.","그림이나 조각으로 감정을 표현한다.","공연이나 연극에서 연기를 잘한다.","의상이나 인테리어를 디자인한다.","사진이나 영상을 감각적으로 찍는다.","창의적인 아이디어를 끊임없이 낸다.","예술 작품의 미적 가치를 잘 안다.","다양한 색채를 조화롭게 쓴다.","사람들의 상상력을 자극한다.","남다른 예술적 감각이 있다는 말을 듣는다.","무대 연출이나 기획을 할 수 있다.","창작 활동을 할 때 몰입도가 높다.","자신만의 독특한 스타일을 가지고 있다.","타인의 고민을 잘 들어주고 조언한다.","가르치는 일을 할 때 보람을 느낀다.","사람들과 원만한 관계를 유지한다.","갈등 상황을 중재하고 화해시킨다.","봉사 활동의 가치를 실천한다.","누군가를 돕는 기술을 빨리 배운다.","처음 보는 사람과 대화를 잘 이끈다.","심리적 지원이나 상담을 할 수 있다.","협력하여 목표를 달성하는 것을 잘한다.","타인의 성장을 돕는 능력이 있다.","사회적 문제에 헌신적이다.","대화를 통해 신뢰를 쌓는다.","사람들의 감정을 섬세하게 파악한다.","조직 내 분위기를 화기애애하게 만든다.","팀을 이끌고 목표를 달성할 수 있다.","사람들을 설득하여 내 편으로 만든다.","사업적 기회를 포착하는 능력이 있다.","경쟁적인 상황을 즐킨다.","결정을 내릴 때 결단력이 있다.","조직의 비전을 제시하고 지휘한다.","재무적 흐름이나 투자를 분석한다.","대중 앞에서 자신 있게 발표한다.","새로운 프로젝트를 기획하고 추진한다.","마케팅이나 영업 전략을 세울 수 있다.","리더로서 책임감을 가지고 행동한다.","협상을 유리하게 이끄는 수완이 있다.","사람들의 동기를 유발하는 능력이 있다.","대규모 조직을 관리한 경험이 있다.","방대한 자료를 기준에 따라 정리한다.","정해진 규칙과 절차를 지킨다.","문서의 오타나 오류를 잘 찾아낸다.","회계 장부나 가계부를 정확히 쓴다.","사무 기기나 컴퓨터를 잘 활용한다.","계획표에 맞춰 체계적으로 일한다.","예산을 세우고 돈을 관리한다.","정보를 분류하고 파일링한다.","마감 기한을 철저히 지킨다.","데이터베이스 관리에 능숙하다.","정리정돈을 습관적으로 잘한다.","법적 규정이나 매뉴얼을 준수한다.","반복 업무도 끈기 있게 수행한다.","행정 업무 처리 능력이 우수하다.",
+        "항공기 정비사","토목 기사","전기 공학자","조경 기술자","기계 설계사","자동차 수리원","중장비 운전사","컴퓨터 조립원","용접 기술자","농기계 관리사","가구 제작자","통신 설비 기사","측량 기사","선박 정비원","생물학자","화학 연구원","천문학자","의학 분석가","해양 과학자","시스템 분석가","지질학자","고고학 전문가","수학자","물리학자","약리학자","인류학 연구원","기상 예보관","유전 공학자","소설가","공연 연출가","그래픽 디자이너","패션 모델","순수 미술가","작곡가","배우","사진 작가","웹툰 작가","인테리어 디자이너","만화가","무대 미술가","시인","광고 카피라이터","사회 복지사","특수 교육 교사","직업 상담사","간호사","물리 치료사","유치원 교사","청소년 지도사","성직자","언어 치료사","학교 상담사","영양사","호스피스 전문가","구호 활동가","임상 심리사","기업 홍보 전문가","정치인","판매 책임자","부동산 중개인","영업 관리자","광고 기획자","무역 전문가","호텔 관리자","법률가","투자 분석가","보험 계리사","프로젝트 매니저","외교관","중소기업 경영인","세무사","회계 감사원","도서관 사서","은행 사무원","통계 분석가","법무사","기록물 관리사","세관원","우편 사무원","품질 관리자","데이터 입력 요원","예산 분석가","행정 서기","법원 서기보",
+        "나는 기계적인 도구를 사용하는 능력이 우수하다.","나는 신체적 민첩성과 운동 능력이 좋다.","나는 과학적인 탐구와 분석 능력이 뛰어나다.","나는 수학적인 추론과 계산 능력이 우수하다.","나는 창의적인 예술 표현 능력이 뛰어나다.","나는 음악적/미술적 감각이 매우 높다.","나는 남을 가르치고 돕는 사회적 능력이 우수하다.","나는 타인의 감정을 이해하는 공감 능력이 좋다.","나는 사람들을 이끄는 지도력(리더십)이 강하다.","나는 설득력과 비즈니스적인 수완이 뛰어나다.","나는 사무적인 꼼꼼함과 정리 능력이 우수하다.","나는 정확한 계산과 세부 사항 확인 능력이 좋다."
+    ];
+
+    const sections = [
+        { id: 2, title: "I. 활동", desc: "관심이 있는 활동이면 1(Y), 아니면 2(N)에 체크하십시오.", start: 1, end: 84, type: 'binary' },
+        { id: 3, title: "II. 역량", desc: "만약 이 활동을 잘 할 수 있다고 생각되면 1(Y), 아니면 2(N)에 체크하십시오.", start: 85, end: 168, type: 'binary' },
+        { id: 4, title: "III. 직업", desc: "흥미를 느끼거나 좋아하는 직업이면 1(Y), 아니면 2(N)에 체크하십시오.", start: 169, end: 252, type: 'binary' },
+        { id: 5, title: "IV. 자기평가", desc: "다른 같은 나이의 친구들에 비해서 자신이 아래의 능력들을 얼마나 가지고 있는지 비교하여 스스로 평가해주세요. (1: 매우 우수 ~~ 7: 매우 부족)", start: 253, end: 264, type: 'score' }
+    ];
+
+    let currentGlobalIdx = 0;
+
+    window.onload = () => {
+        const rt = document.getElementById('rank-table');
+        for(let i=1; i<=5; i++){
+            let row = `<tr><td><b>${i}순위</b></td><td style="text-align:left">`;
+            ['가','나','다','라','마','바','사','아','자','차','카','타'].forEach(c => row += `<label style="margin-right:12px"><input type="radio" name="r${i}" value="${c}" onchange="preventDup(this,${i})"> (${c})</label>`);
+            rt.innerHTML += row + `</td></tr>`;
+        }
+
+        const sp = document.getElementById('survey-pages');
+        sections.forEach((sec, idx) => {
+            let html = `<div id="p${sec.id}" class="page"><div class="info-box"><b>[${sec.title}]</b><br>${sec.desc}</div><table><thead><tr><th>문항</th>`;
+            if(sec.type === 'binary') html += `<th width="80">1(Y)</th><th width="80">2(N)</th></tr></thead><tbody>`;
+            else html += `<th>1(우수)</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7(부족)</th></tr></thead><tbody>`;
+
+            for(let i = sec.start; i <= sec.end; i++){
+                html += `<tr id="row-${i-1}"><td class="q-text">${i}. ${questionsText[i-1]}</td>`;
+                const range = (sec.type === 'binary') ? 2 : 7;
+                for(let r=1; r<=range; r++) html += `<td><input type="radio" name="q${i-1}" id="q${i-1}-${r}" onchange="updateProgress()"></td>`;
+                html += `</tr>`;
+            }
+            html += `</tbody></table><div class="btn-box"><button style="background:#666" onclick="go(${sec.id-1})">이전</button><button onclick="${idx===3?'finish()':`checkSection(${sec.id},${sec.start-1},${sec.end-1})`}">${idx===3?'최종 제출':'다음 유형으로'}</button></div></div>`;
+            sp.innerHTML += html;
+        });
+    };
+
+    function go(n) {
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.getElementById(`p${n}`).classList.add('active');
+        document.getElementById('progress-container').style.display=(n>=2)?'block':'none';
+        window.scrollTo(0,0);
+        if(n>=2) {
+            currentGlobalIdx = sections.find(s=>s.id===n).start-1;
+            document.querySelectorAll('tr').forEach(r=>r.classList.remove('active-row'));
+            document.getElementById(`row-${currentGlobalIdx}`).classList.add('active-row');
+        }
+    }
+
+    function checkP0() {
+        // 필수 필드에서 'phone' 제외
+        const fields = ['name', 'gender', 'interest', 'school', 'grade', 'email'];
+        for(let f of fields) if(!document.getElementById(f).value) return alert("항목을 모두 입력해주세요.");
+        go(1);
+    }
+
+    function checkP1() {
+        for(let i=1;i<=5;i++) if(!document.querySelector(`input[name="r${i}"]:checked`)) return alert(i+"순위를 선택하세요.");
+        go(2);
+    }
+
+    function checkSection(p, s, e) {
+        for(let i=s; i<=e; i++) {
+            let chk = false; for(let r=1; r<=7; r++) if(document.getElementById(`q${i}-${r}`)?.checked) chk = true;
+            if(!chk) { alert((i+1)+"번 누락"); document.getElementById(`row-${i}`).scrollIntoView({behavior:'smooth', block:'center'}); return; }
+        }
+        go(p + 1);
+    }
+
+    function updateProgress() {
+        let a=0; for(let i=0;i<264;i++){
+            let c=false; for(let r=1;r<=7;r++) if(document.getElementById(`q${i}-${r}`)?.checked) c=true;
+            if(c) a++;
+        }
+        let per=Math.floor((a/264)*100); document.getElementById('bar').style.width=per+"%";
+        document.getElementById('percent').innerText=per; document.getElementById('count').innerText=a;
+    }
+
+    function preventDup(s,r) {
+        for(let i=1;i<=5;i++) if(i!==r){ let o=document.querySelector(`input[name="r${i}"]:checked`); if(o&&o.value===s.value){alert("중복되었습니다."); s.checked=false;}}
+    }
+
+    function finish() {
+        const data = {
+            name: document.getElementById('name').value, gender: document.getElementById('gender').value,
+            interest: document.getElementById('interest').value, school: document.getElementById('school').value,
+            grade: document.getElementById('grade').value, email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value, ranks: [], answers: []
+        };
+        for(let i=1; i<=5; i++) data.ranks.push(document.querySelector(`input[name="r${i}"]:checked`).value);
+        for(let i=0; i<264; i++) {
+            let val = ""; for(let r=1; r<=7; r++) if(document.getElementById(`q${i}-${r}`)?.checked) val = r;
+            data.answers.push(val);
+        }
+        if(data.answers.includes("")) return alert("누락된 문항이 있습니다.");
+
+        const url = "https://script.google.com/macros/s/AKfycbziE4u5-cIBEjsCAqw58ts11aNtpMGEp26Xi8mZ9WClNjnstQyPD3C1Y_LeBD_WaC9r2A/exec"; 
+        alert("데이터 저장 중...");
+        fetch(url, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
+        .then(() => { alert("제출 완료!"); location.reload(); });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        const active = document.querySelector('.page.active');
+        if(!active || parseInt(active.id.slice(1)) < 2) return;
+        const sec = sections.find(s => s.id === parseInt(active.id.slice(1)));
+        if (currentGlobalIdx < sec.start - 1 || currentGlobalIdx > sec.end - 1) return;
+        const key = parseInt(e.key);
+        const max = (sec.type === 'binary') ? 2 : 7;
+        if(key >= 1 && key <= max) {
+            const rb = document.getElementById(`q${currentGlobalIdx}-${key}`);
+            if(rb) {
+                rb.checked = true; updateProgress();
+                document.getElementById(`row-${currentGlobalIdx}`).classList.remove('active-row');
+                if(currentGlobalIdx < sec.end - 1) {
+                    currentGlobalIdx++;
+                    const next = document.getElementById(`row-${currentGlobalIdx}`);
+                    next.classList.add('active-row'); next.scrollIntoView({behavior:'smooth', block:'center'});
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
