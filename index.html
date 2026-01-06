@@ -358,7 +358,7 @@
         btn.disabled = true;
         btn.innerText = ui[currentLang].btnSubmitting;
 
-        const url = "https://script.google.com/macros/s/AKfycbwq58rAeI9XvpNH6sk4hyJQMtLZ-TN8Bpkhbbay-LgR-Uzy_h_qour8zuY-BOkEtgJilA/exec";
+        const url = "https://script.google.com/macros/s/AKfycbzqLjUFRZ4mCRCT4kmsNxHCRuiOhxou4qY763mRi5EH7tAZBkVjQ-Inq9uEBVcqCOakHw/exec";
         fetch(url, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
         .then(() => { alert(currentLang==='ko'?'성공적으로 제출되었습니다!':'Submitted successfully!'); location.reload(); })
         .catch(() => {
